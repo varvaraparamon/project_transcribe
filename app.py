@@ -6,14 +6,8 @@ from datetime import datetime
 from flask import send_file
 import io
 
-UPLOAD_FOLDER = "uploads"
-TRANSCRIPT_FOLDER = "transcripts"
-
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-os.makedirs(TRANSCRIPT_FOLDER, exist_ok=True)
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 init_db()
 
