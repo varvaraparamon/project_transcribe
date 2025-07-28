@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>История транскрипций</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h2>📜 История транскрипций</h2>
+        <a href="/">← Назад к загрузке</a>
+        <ul>
+        {% for filename, timestamp, id in transcripts %}
+            <li>
+                <strong>{{ timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</strong><br>
+                <a href="{{ url_for('view_transcript', transcript_id=id) }}">{{ filename }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+</body>
+</html>

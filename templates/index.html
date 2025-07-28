@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>🎤 Расшифровка аудио</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+    <h2>🎤 Расшифровка аудио</h2>
+
+    <form action="/transcribe" method="post" enctype="multipart/form-data">
+
+        <label class="custom-file-upload">
+            <input type="file" name="audio" accept="audio/*" required />
+            Выбрать аудио файл
+        </label>
+
+        <div style="text-align:center; margin-top: 10px;">
+            <label style="font-size: 18px; cursor: pointer;">
+                <input type="checkbox" name="download" />
+                Скачать результат сразу после транскрипции
+            </label>
+        </div>
+
+        <input type="submit" value="Отправить" />
+    </form>
+
+    <a href="/history">📜 Посмотреть историю транскрипций</a>
+
+</body>
+</html>

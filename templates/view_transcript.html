@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Просмотр транскрипта - {{ transcript.filename }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h2>{{ transcript.filename }}</h2>
+
+    <pre class="transcript-text">{{ transcript.transcription }}</pre>
+
+    <a href="{{ url_for('download', transcript_id=transcript.id) }}" class="custom-file-upload" style="display: inline-block; margin-bottom: 20px;">Скачать транскрипт</a><br>
+
+    <a href="{{ url_for('history') }}">← Назад к истории</a>
+</body>
+</html>
