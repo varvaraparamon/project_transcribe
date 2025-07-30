@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8" />
     <title>🎤 Расшифровка аудио</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
 </head>
+
 <body>
     <h2>🎤 Расшифровка аудио</h2>
 
-    <form action="/transcribe" method="post" enctype="multipart/form-data">
+    <form id="transcribe-form" action="/transcribe" method="post" enctype="multipart/form-data">
 
         <label class="custom-file-upload">
             <input type="file" id="audio-file" name="audio" accept="audio/*" required />
@@ -16,17 +18,30 @@
         </label>
         <span id="file-name" style="margin-left: 10px; font-weight: 600;"></span>
 
+        <!-- Блок анимации загрузки -->
+        <div id="loading">
+            <span class="loader"></span> Загрузка...
+        </div>
+
         <script>
-        document.getElementById('audio-file').addEventListener('change', function() {
-            const fileNameSpan = document.getElementById('file-name');
-            if (this.files.length > 0) {
-                fileNameSpan.textContent = this.files[0].name;
-            } else {
-                fileNameSpan.textContent = '';
-            }
-        });
+            document.getElementById('audio-file').addEventListener('change', function () {
+                const fileNameSpan = document.getElementById('file-name');
+                if (this.files.length > 0) {
+                    fileNameSpan.textContent = this.files[0].name;
+                } else {
+                    fileNameSpan.textContent = '';
+                }
+            });
+
+            const form = document.getElementById('transcribe-form');
+            const loadingDiv = document.getElementById('loading');
+            const submitBtn = form.querySelector('input[type="submit"]');
+
+            form.addEventListener('submit', function () {
+                loadingDiv.style.display = 'block';    // показать анимацию
+                submitBtn.disabled = true;              // блокируем кнопку
+            });
         </script>
-        
 
         <div style="text-align:center; margin-top: 10px;">
             <label style="font-size: 18px; cursor: pointer;">
@@ -41,4 +56,5 @@
     <a href="/history">📜 Посмотреть историю транскрипций</a>
 
 </body>
+
 </html>

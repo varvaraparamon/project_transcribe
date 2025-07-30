@@ -15,7 +15,7 @@ class Transcript(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
 def init_db():
-    Base.metadata.create_all(engine)
+    Base.metadata.create_all(engine, checkfirst=True)
 
 def insert_transcript(filename, transcription):
     session = Session()

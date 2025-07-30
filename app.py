@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect
 import os
-# from whisper_transcriber import transcribe
+from whisper_transcriber import transcribe_audio_file
 from db import init_db, insert_transcript, get_all_transcripts, get_transcript_by_id
 from datetime import datetime
 from flask import send_file
@@ -27,8 +27,8 @@ def handle_transcription():
 
     audio_bytes = file.read()
 
-    # text = transcribe(audio_bytes)
-    text = "hi"
+    text = transcribe_audio_file(audio_bytes, filename)
+    # text = "hi"
 
     insert_transcript(filename, text)
 

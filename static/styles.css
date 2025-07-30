@@ -76,7 +76,7 @@ li {
     padding: 20px;
     margin-bottom: 15px;
     border-radius: 12px;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
     font-size: 18px;
 }
 
@@ -106,10 +106,46 @@ li {
     background: #f8fafc;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
     font-size: 18px;
     line-height: 1.5;
     margin-bottom: 24px;
     overflow-x: auto;
-    white-space: pre-wrap; /* чтобы переносы строк из транскрипта сохранялись */
+    white-space: pre-wrap;
+    /* чтобы переносы строк из транскрипта сохранялись */
+}
+
+
+#loading {
+    display: none;
+    font-weight: 600;
+    margin-top: 10px;
+    color: #059669;
+    /* зелёный оттенок из твоей палитры */
+    text-align: center;
+    font-size: 18px;
+    user-select: none;
+}
+
+.loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #10b981;
+    /* совпадает с зелёным из кнопки */
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
