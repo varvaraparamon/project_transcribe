@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Обработка файла</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <div class="center-container">
+        <h2>⏳ Ваш файл в обработке</h2>
+        <p id="queue-status">Определение позиции...</p>
+        <div class="loader"></div>
+    </div>
+
+    <script>
+        const taskId = "{{ task_id }}";
+        let polling = true;
+
+        async function pollStatus() {
+            if (!polling) return;
+
+            const res = await fetch(`/queue_status/${taskId}`);
+            const data = await res.json();
+
+            if (data.status === "queued") {
+                document.getElementById("queue-status").textContent =
+                    `Вы в очереди: ${data.position}`;
+            } else if (data.status === "processing") {
+                document.getElementById("queue-status").textContent = "🔧 Обработка...";
+            } else if (data.status === "done") {
+                polling = false; // остановить дальнейшее обновление
+
+                if (data.download) {
+                    // создаём "скрытую" ссылку для скачивания
+                    const a = document.createElement('a');
+                    a.href = `/download/${data.transcript_id}`;
+                    a.download = '';
+                    a.click();
+
+                    // optionally перенаправим через 2 секунды на страницу просмотра
+                    setTimeout(() => {
+                        window.location.href = `/view/${data.transcript_id}`;
+                    }, 1000);
+                } else {
+                    window.location.href = `/view/${data.transcript_id}`;
+                }
+            } else if (data.status === "error") {
+                polling = false;
+                document.getElementById("queue-status").textContent = "Ошибка: " + data.message;
+            }
+        }
+
+        setInterval(pollStatus, 3000);
+        pollStatus();
+    </script>
+
+</body>
+
+</html>
