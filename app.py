@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect
 import os
 from whisper_transcriber import transcribe_audio_file
-from db import init_db, insert_transcript, get_all_transcripts, get_transcript_by_id
+from db import init_db, insert_transcript, get_all_transcripts, get_transcript_by_id, get_all_venues, get_venue_by_transcript_id
 from datetime import datetime
+from zoneinfo import ZoneInfo
 from flask import send_file
 import io
 
@@ -13,7 +14,8 @@ init_db()
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    venues = get_all_venues()
+    return render_template("index.html", venues=venues)
 
 @app.route('/transcribe', methods=['POST'])
 def handle_transcription():
@@ -23,14 +25,21 @@ def handle_transcription():
 
     download_requested = request.form.get("download") == "on"
 
-    filename = datetime.now().strftime("%Y%m%d_%H%M%S") + "_" + file.filename
+    filename = datetime.now(ZoneInfo("Europe/Moscow")).strftime("%Y%m%d_%H%M%S") + "_" + file.filename
 
     audio_bytes = file.read()
 
     text = transcribe_audio_file(audio_bytes, filename)
     # text = "hi"
 
-    insert_transcript(filename, text)
+    venue_id = request.form.get("venue_id")
+    if venue_id:
+        venue_id = int(venue_id)
+    else:
+        venue_id = None
+
+
+    transcript_id = insert_transcript(filename, text, venue_id)
 
     if download_requested:
         transcript_file = io.BytesIO()
@@ -44,7 +53,7 @@ def handle_transcription():
             mimetype="text/plain"
         )
     else:
-        return redirect("/history")
+        return redirect(f"/view/{transcript_id}")
     
 
 @app.route('/history')
@@ -75,7 +84,9 @@ def view_transcript(transcript_id):
     if not transcript:
         return "Transcript not found", 404
 
-    return render_template("view_transcript.html", transcript=transcript)
+    venue = get_venue_by_transcript_id(transcript_id)
+
+    return render_template("view_transcript.html", transcript=transcript, venue=venue)
 
 if __name__ == "__main__":
     app.run(debug=True)

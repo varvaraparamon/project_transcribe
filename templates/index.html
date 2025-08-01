@@ -50,6 +50,16 @@
             </label>
         </div>
 
+        <div class="venue-selector">
+            <select name="venue_id" id="venue">
+                <option value="">-- Выбрать площадку --</option>
+                {% for venue in venues %}
+                <option value="{{ venue.id }}">{{ venue.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+
         <input type="submit" value="Отправить" />
     </form>
 
