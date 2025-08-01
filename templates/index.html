@@ -18,11 +18,6 @@
         </label>
         <span id="file-name" style="margin-left: 10px; font-weight: 600;"></span>
 
-        <!-- Блок анимации загрузки -->
-        <div id="loading">
-            <span class="loader"></span> Загрузка...
-        </div>
-
         <script>
             document.getElementById('audio-file').addEventListener('change', function () {
                 const fileNameSpan = document.getElementById('file-name');
@@ -34,12 +29,10 @@
             });
 
             const form = document.getElementById('transcribe-form');
-            const loadingDiv = document.getElementById('loading');
             const submitBtn = form.querySelector('input[type="submit"]');
 
             form.addEventListener('submit', function () {
-                loadingDiv.style.display = 'block';    // показать анимацию
-                submitBtn.disabled = true;              // блокируем кнопку
+                submitBtn.disabled = true;  // блокируем кнопку
             });
         </script>
 
@@ -59,12 +52,10 @@
             </select>
         </div>
 
-
         <input type="submit" value="Отправить" />
     </form>
 
     <a href="/history">📜 Посмотреть историю транскрипций</a>
-
 </body>
 
 </html>
