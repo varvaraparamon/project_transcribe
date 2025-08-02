@@ -30,16 +30,15 @@
             } else if (data.status === "processing") {
                 document.getElementById("queue-status").textContent = "🔧 Обработка...";
             } else if (data.status === "done") {
-                polling = false; // остановить дальнейшее обновление
+                polling = false;
 
                 if (data.download) {
-                    // создаём "скрытую" ссылку для скачивания
                     const a = document.createElement('a');
                     a.href = `/download/${data.transcript_id}`;
                     a.download = '';
                     a.click();
 
-                    // optionally перенаправим через 2 секунды на страницу просмотра
+                    // секунда таймаута
                     setTimeout(() => {
                         window.location.href = `/view/${data.transcript_id}`;
                     }, 1000);

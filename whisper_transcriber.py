@@ -19,14 +19,6 @@ asr_pipeline = pipeline(
 )
 
 def transcribe_audio_file(audio_bytes: bytes, original_filename: str, return_timestamps: bool = False):
-    """
-    Транскрибирует аудиофайл, возвращая текст или чанки с таймкодами.
-
-    :param audio_bytes: содержимое аудиофайла в байтах
-    :param original_filename: имя файла (нужно для определения расширения)
-    :param return_timestamps: возвращать ли таймкоды
-    :return: строка текста или список чанков с таймкодами
-    """
     ext = os.path.splitext(original_filename)[1].lower()
 
     with tempfile.NamedTemporaryFile(suffix=ext, delete=True) as temp_audio:
@@ -56,9 +48,6 @@ def transcribe_audio_file(audio_bytes: bytes, original_filename: str, return_tim
     
 
 def download_audio_from_youtube(url: str) -> tuple[bytes, str]:
-    """
-    Скачивает аудио с YouTube и возвращает его как байты и имя файла.
-    """
     with tempfile.TemporaryDirectory() as tmpdir:
         output_path = os.path.join(tmpdir, "%(title)s.%(ext)s")
         ydl_opts = {
@@ -89,16 +78,16 @@ if __name__ == "__main__":
     filename = ""
     # with open(filename, "rb") as f:
     #     audio = f.read()
-    youtube_url = input("Вставьте ссылку на YouTube: ").strip()
+    youtube_url = input("ссылка на ют ").strip()
 
-    print("\n📥 Скачиваем аудио...")
+    print("\nскачивание...")
     audio, filename = download_audio_from_youtube(youtube_url)
     
-    print("\n=== Только текст ===")
+    print("\nТОЛЬКО ТЕКСТ-------")
     text = transcribe_audio_file(audio, filename, return_timestamps=False)
     print(text)
 
-    print("\n=== С таймкодами ===")
+    print("\nТЕКСТ С ТАЙМКОДАМИ---------")
     chunks = transcribe_audio_file(audio, filename, return_timestamps=True)
     for chunk in chunks:
         print(chunk)
