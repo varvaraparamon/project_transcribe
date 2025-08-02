@@ -12,7 +12,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 asr_pipeline = pipeline(
     "automatic-speech-recognition",
     model="openai/whisper-large-v3",
-    chunk_length_s=20,                 
+    chunk_length_s=30,                 
     return_timestamps=True,
     torch_dtype=torch.float16,         
     device=device,
