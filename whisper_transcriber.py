@@ -9,6 +9,7 @@ import gc
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
+print("модель скачивается")
 asr_pipeline = pipeline(
     "automatic-speech-recognition",
     model="openai/whisper-large-v3",
@@ -17,11 +18,12 @@ asr_pipeline = pipeline(
     torch_dtype=torch.float16,         
     device=device,
 )
+print("модель скачана! :)")
 
 def transcribe_audio_file(audio_bytes: bytes, original_filename: str, return_timestamps: bool = False):
     ext = os.path.splitext(original_filename)[1].lower()
 
-    with tempfile.NamedTemporaryFile(suffix=ext, delete=True) as temp_audio:
+    with tempfile.NamedTemporaryFile(suffix=ext, delete=False) as temp_audio:
         torch.cuda.empty_cache()
         gc.collect()
         temp_audio.write(audio_bytes)

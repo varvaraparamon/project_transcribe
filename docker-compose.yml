@@ -1,0 +1,13 @@
+services:
+  transcribe:
+    build: .
+    container_name: transcribe_gpu
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - .:/app
+    ports:
+      - "5000:5000"
+    stdin_open: true
+    tty: true
+

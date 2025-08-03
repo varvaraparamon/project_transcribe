@@ -3,7 +3,10 @@ from sqlalchemy.orm import declarative_base, sessionmaker, relationship, joinedl
 from datetime import datetime
 from config import DB_URL
 
-engine = create_engine(DB_URL)
+engine = create_engine(DB_URL,
+    pool_pre_ping=True,
+    pool_recycle=1800)  
+
 Session = sessionmaker(bind=engine)
 Base = declarative_base()
 
