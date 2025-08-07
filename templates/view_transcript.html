@@ -16,6 +16,7 @@
         style="display: inline-block; margin-bottom: 10px;">Скачать транскрипт</a>
 
     <p class="venue">Площадка: {{ venue.name if venue else "Неизвестно" }}</p>
+    <p class="venue">Дата: {{ day.name if day else "Неизвестно" }}</p>
     <pre class="transcript-text">{{ transcript.transcription }}</pre>
 
 </body>

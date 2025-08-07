@@ -2,3 +2,4 @@ config.py
 __pycache__
 venv
 *.mp3
+.env

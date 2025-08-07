@@ -8,6 +8,7 @@ import yt_dlp
 import gc
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
+print(device)
 
 print("модель скачивается")
 asr_pipeline = pipeline(

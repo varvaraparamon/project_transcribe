@@ -51,6 +51,14 @@
                 {% endfor %}
             </select>
         </div>
+        <div class="venue-selector">
+            <select name="day_id" id="day">
+                <option value="">-- Выбрать дату --</option>
+                {% for day in days %}
+                <option value="{{ day.id }}">{{ day.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
         <input type="submit" value="Отправить" />
     </form>

@@ -2,12 +2,27 @@ services:
   transcribe:
     build: .
     container_name: transcribe_gpu
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
     volumes:
       - .:/app
+      - nas_data:/data/nas
     ports:
       - "5000:5000"
     stdin_open: true
     tty: true
 
+volumes:
+  nas_data:
+    driver: local
+    driver_opts:
+      type: cifs
+      o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},iocharset=utf8,file_mode=0777,dir_mode=0777"
+      device: "//172.151.1.10/Сбор цифрового следа"
