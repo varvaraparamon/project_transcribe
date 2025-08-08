@@ -28,7 +28,9 @@ def background_worker():
             transcript = get_transcript_by_id(transcript_id)
 
             venue, day = get_venue_day_by_id(venue_id, day_id)
-            save_dir = os.path.join(NAS_ROOT, day.name, venue.name)
+            save_dir = os.path.join(NAS_ROOT, "Входящие", "Unnamed")
+            if day and venue:
+                save_dir = os.path.join(NAS_ROOT, day.name, venue.name)
             os.makedirs(save_dir, exist_ok=True)
 
             text_file = filename.rsplit('.', 1)[0] + ".txt"
@@ -82,7 +84,9 @@ def handle_transcription():
     }
 
     venue, day = get_venue_day_by_id(venue_id, day_id)
-    save_dir = os.path.join(NAS_ROOT, day.name, venue.name)
+    save_dir = os.path.join(NAS_ROOT, "Входящие", "Unnamed")
+    if day and venue:
+        save_dir = os.path.join(NAS_ROOT, day.name, venue.name)
     os.makedirs(save_dir, exist_ok=True)
 
     save_path = os.path.join(save_dir, filename)

@@ -1,7 +1,6 @@
 from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime, ForeignKey
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship, joinedload
 from datetime import datetime
-from config import DB_URL
 from dotenv import load_dotenv
 import os
 
