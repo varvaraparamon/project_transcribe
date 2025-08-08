@@ -53,7 +53,7 @@ threading.Thread(target=background_worker, daemon=True).start()
 
 
 app = Flask(__name__)
-
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 * 1024
 init_db()
 
 @app.route('/')
@@ -62,7 +62,7 @@ def index():
     days = get_all_days()
     return render_template("index.html", venues=venues, days=days)
 
-@app.route('/transcribe', methods=['POST'])
+@app.route('/transcribe', methods=['POST', 'GET'])
 def handle_transcription():
     file = request.files.get('audio')
     if not file:
@@ -157,4 +157,4 @@ def queue_status(task_id):
         return jsonify({"status": "error", "message": status["error"]})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000) 

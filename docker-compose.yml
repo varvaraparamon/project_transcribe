@@ -5,6 +5,7 @@ services:
     deploy:
       resources:
         reservations:
+          memory: 20G
           devices:
             - driver: nvidia
               count: all
