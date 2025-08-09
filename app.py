@@ -11,6 +11,7 @@ import queue
 import threading
 from uuid import uuid4
 from pathlib import Path
+from pydub import AudioSegment
 
 transcription_queue = queue.Queue()
 task_status = {}  # task_id: {"status": ..., "transcript_id": ..., "error": ...}
@@ -71,6 +72,11 @@ def handle_transcription():
     download_requested = request.form.get("download") == "on"
     filename = datetime.now(ZoneInfo("Europe/Moscow")).strftime("%Y%m%d_%H%M%S") + "_" + file.filename
     audio_bytes = file.read()
+
+    # audio = AudioSegment.from_file(io.BytesIO(file.read()))
+    # mp3_buffer = io.BytesIO()
+    # audio.export(mp3_buffer, format="mp3")
+    # audio_bytes = mp3_buffer.getvalue()
 
     venue_id = request.form.get("venue_id")
     day_id = request.form.get("day_id")

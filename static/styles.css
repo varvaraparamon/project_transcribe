@@ -254,3 +254,62 @@ li {
         transform: rotate(360deg);
     }
 }
+
+/* Стили для drop-zone */
+.drop-zone {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 40px;
+    text-align: center;
+    margin: 20px 0;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.drop-zone:hover {
+    border-color: #666;
+    background-color: #f8f9fa;
+}
+
+.drop-zone.active {
+    border-color: #2196F3;
+    background-color: #e3f2fd;
+}
+
+.drop-zone p {
+    margin: 0;
+    font-size: 16px;
+}
+
+.drop-zone .icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+/*  чек!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+/* #progress-container {
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#progress-bar {
+    width: 0%;
+    height: 20px;
+    background: #4CAF50;
+    border-radius: 2px;
+    transition: width 0.3s;
+}
+
+#progress-text {
+    text-align: center;
+    margin-top: 5px;
+    font-size: 14px;
+} */
+
+
+.file-name {
+    margin-left: 10px; 
+    font-weight: 600;
+}
