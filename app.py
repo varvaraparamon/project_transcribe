@@ -11,7 +11,7 @@ import queue
 import threading
 from uuid import uuid4
 from pathlib import Path
-from pydub import AudioSegment
+# from pydub import AudioSegment
 
 transcription_queue = queue.Queue()
 task_status = {}  # task_id: {"status": ..., "transcript_id": ..., "error": ...}
