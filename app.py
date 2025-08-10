@@ -16,10 +16,11 @@ from pathlib import Path
 transcription_queue = queue.Queue()
 task_status = {}  # task_id: {"status": ..., "transcript_id": ..., "error": ...}
 NAS_ROOT = "/data/nas"
+DOC_ROOT = "/Входящие/ИОД"
 
 def background_worker():
     while True:
-        task_id, audio_bytes, filename, venue_id, day_id = transcription_queue.get()
+        task_id, audio_bytes, filename, venue_id, day_id, doc_filename = transcription_queue.get()
         task_status[task_id]["status"] = "processing"
 
         try:
@@ -30,13 +31,24 @@ def background_worker():
 
             venue, day = get_venue_day_by_id(venue_id, day_id)
             save_dir = os.path.join(NAS_ROOT, "Входящие", "Unnamed")
+            doc_dir = os.path.join(NAS_ROOT, "Входящие",  "ИОД", "Unnamed")
             if day and venue:
                 save_dir = os.path.join(NAS_ROOT, day.name, venue.name)
+                doc_dir = os.path.join(NAS_ROOT, "Входящие",  "ИОД", day.name)
             os.makedirs(save_dir, exist_ok=True)
+            os.makedirs(doc_dir, exist_ok=True)
 
             text_file = filename.rsplit('.', 1)[0] + ".txt"
+            doc_file = datetime.now(ZoneInfo("Europe/Moscow")).strftime("%d%m") + "_" + doc_filename
+            doc_file = doc_file.rsplit('.', 1)[0] + ".txt"
+
             save_path = os.path.join(save_dir, text_file)
+            doc_path = os.path.join(doc_dir, doc_file)
+
             with open(save_path, "wb") as f:
+                f.write(transcript.transcription.encode("utf-8"))
+
+            with open(doc_path, "wb") as f:
                 f.write(transcript.transcription.encode("utf-8"))
 
             task_status[task_id]["status"] = "done"
@@ -95,7 +107,7 @@ def handle_transcription():
     with open(save_path, "wb") as f:
         f.write(audio_bytes)
 
-    transcription_queue.put((task_id, audio_bytes, filename, venue_id, day_id))
+    transcription_queue.put((task_id, audio_bytes, filename, venue_id, day_id, file.filename))
 
     return render_template("waiting.html", task_id=task_id)
     

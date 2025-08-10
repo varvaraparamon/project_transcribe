@@ -13,7 +13,7 @@ print(device)
 print("модель скачивается")
 asr_pipeline = pipeline(
     "automatic-speech-recognition",
-    model="openai/whisper-large-v3-turbo",
+    model="openai/whisper-large-v3",
     chunk_length_s=30,                 
     return_timestamps=True,
     torch_dtype=torch.float16,         

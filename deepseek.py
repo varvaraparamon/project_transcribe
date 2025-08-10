@@ -1,10 +1,12 @@
-from openai import OpenAI
+from huggingface_hub import login
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
-DEEPSEEK_API = os.getenv("DEEPSEEK_API")
+HUGGINGFACE_TOKEN = os.getenv("HUGGINGFACE_TOKEN")
+login(HUGGINGFACE_TOKEN)
 
+from langchain_huggingface import HuggingFaceEndpoint, ChatHuggingFace
 
 prompt = """
 Вход:
@@ -62,19 +64,21 @@ prompt = """
 Кому адресован: [группа участников]
 """
 
-client = OpenAI(api_key=DEEPSEEK_API, base_url="https://api.deepseek.com")
+llm = HuggingFaceEndpoint(
+    repo_id="google/gemma-2-27b",
+    task="text-generation",
+)
 
 def get_context(text):
     try:
-        response = client.chat.completions.create(
-            model="deepseek-chat",
-            messages=[
-                {"role": "system", "content": prompt},
-                {"role": "user", "content": text},
-            ],
-            stream=False
-        )
-        return response.choices[0].message.content
+        chat = ChatHuggingFace(llm=llm, verbose=True)
+        messages = [
+            ("system", prompt),
+            ("human", text),
+        ]
+
+        ai_msg = chat.invoke(messages)
+        return ai_msg.choices[0].message.content
     except Exception as e:
         print(e)
         return None
