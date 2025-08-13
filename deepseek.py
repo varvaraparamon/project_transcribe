@@ -75,7 +75,7 @@ def get_context(text):
         messages = [
             ("system", prompt),
             ("human", text),
-        ]
+        ] 
 
         ai_msg = chat.invoke(messages)
         return ai_msg.choices[0].message.content

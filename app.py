@@ -39,7 +39,10 @@ def background_worker():
             os.makedirs(doc_dir, exist_ok=True)
 
             text_file = filename.rsplit('.', 1)[0] + ".txt"
-            doc_file = datetime.now(ZoneInfo("Europe/Moscow")).strftime("%d%m") + "_" + doc_filename
+            venue_name = '_'
+            if venue:
+                venue_name += venue.name
+            doc_file = datetime.now(ZoneInfo("Europe/Moscow")).strftime("%d%m") + venue_name+ "_" + doc_filename
             doc_file = doc_file.rsplit('.', 1)[0] + ".txt"
 
             save_path = os.path.join(save_dir, text_file)
